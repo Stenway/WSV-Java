@@ -34,4 +34,8 @@ public class Assert {
 	public static void isFalse(boolean actual) {
 		assertFalse(actual);
 	}
+	
+	public static void isNotEqual(Object actual, Object expected) {
+		assertNotEquals(expected, actual);
+	}
 }

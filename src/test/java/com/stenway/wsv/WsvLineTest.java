@@ -5,11 +5,11 @@ import org.junit.Test;
 public class WsvLineTest {
 
 	@Test
-	public void test_setComment_exceptions() {
-		setComment_throws_exception("\n");
+	public void setComment_LineFeedGiven_ShouldThrowException() {
+		setComment_LineFeedGiven_ShouldThrowException("\n");
 	}
 	
-	private void setComment_throws_exception(String comment) {
+	private void setComment_LineFeedGiven_ShouldThrowException(String comment) {
 		try {
 			WsvLine wsvLine = new WsvLine();
 			wsvLine.setComment(comment);
@@ -20,11 +20,11 @@ public class WsvLineTest {
 	}
 	
 	@Test
-	public void test_setWhitespaces_exceptions() {
-		setWhitespaces_throws_exception("\n");
+	public void setWhitespaces_LineFeedGiven_ShouldThrowException() {
+		setWhitespaces_InvalidWhitespaceGiven_ShouldThrowException("\n");
 	}
 	
-	private void setWhitespaces_throws_exception(String... whitespaces) {
+	private void setWhitespaces_InvalidWhitespaceGiven_ShouldThrowException(String... whitespaces) {
 		try {
 			WsvLine wsvLine = new WsvLine();
 			wsvLine.setWhitespaces(whitespaces);
@@ -35,20 +35,20 @@ public class WsvLineTest {
 	}
 	
 	@Test
-	public void test_parse_exceptions() {
-		parse_throws_exception("a b c\n",				"Multiple WSV lines not allowed (1, 6)");
+	public void parse_InvalidTextGiven_ShouldThrowExeption() {
+		parse_InvalidTextGiven_ShouldThrowExeption("a b c\n",				"Multiple WSV lines not allowed (1, 6)");
 		
-		parse_throws_exception("a b c \"hello world",	"String not closed (1, 19)");
-		parse_throws_exception("a b c \"hello world\n",	"String not closed (1, 19)");
+		parse_InvalidTextGiven_ShouldThrowExeption("a b c \"hello world",	"String not closed (1, 19)");
+		parse_InvalidTextGiven_ShouldThrowExeption("a b c \"hello world\n",	"String not closed (1, 19)");
 		
-		parse_throws_exception("a b\"hello world\"",	"Invalid double quote in value (1, 4)");
+		parse_InvalidTextGiven_ShouldThrowExeption("a b\"hello world\"",	"Invalid double quote in value (1, 4)");
 		
-		parse_throws_exception("\"hello world\"a b c",	"Invalid character after string (1, 14)");
+		parse_InvalidTextGiven_ShouldThrowExeption("\"hello world\"a b c",	"Invalid character after string (1, 14)");
 		
-		parse_throws_exception("\"Line1\"/ \"Line2\"",	"Invalid string line break (1, 9)");
+		parse_InvalidTextGiven_ShouldThrowExeption("\"Line1\"/ \"Line2\"",	"Invalid string line break (1, 9)");
 	}
 	
-	private void parse_throws_exception(String line, String expectedExceptionMessage) {
+	private void parse_InvalidTextGiven_ShouldThrowExeption(String line, String expectedExceptionMessage) {
 		try {
 			WsvLine.parse(line);
 		} catch (WsvParserException e) {
@@ -59,7 +59,7 @@ public class WsvLineTest {
 	}
 	
 	@Test
-	public void test_parse() {
+	public void parse() {
 		parse_equals_toString("");
 		parse_equals_toString("a");
 		parse_equals_toString("a b");
@@ -116,7 +116,7 @@ public class WsvLineTest {
 	}
 	
 	@Test
-	public void test_parse_nonPreserving() {
+	public void parse_nonPreserving() {
 		parse_nonPreserving_equals("a b c",				"a b c");
 		parse_nonPreserving_equals("   a   b   c  ",	"a b c");
 		parse_nonPreserving_equals("a b c#",			"a b c");
@@ -129,20 +129,20 @@ public class WsvLineTest {
 	}
 	
 	@Test
-	public void test_toString_singleValue() {
-		test_toString_singleValue("",				"\"\"");
-		test_toString_singleValue("a",				"a");
-		test_toString_singleValue("abc",			"abc");
-		test_toString_singleValue("-",				"\"-\"");
-		test_toString_singleValue(null,				"-");
-		test_toString_singleValue("#",				"\"#\"");
-		test_toString_singleValue("abc def",		"\"abc def\"");
-		test_toString_singleValue("\"",				"\"\"\"\"");
-		test_toString_singleValue("\n",				"\"\"/\"\"");
-		test_toString_singleValue("Line1\nLine2",	"\"Line1\"/\"Line2\"");
+	public void toString_singleValue() {
+		toString_singleValue("",				"\"\"");
+		toString_singleValue("a",				"a");
+		toString_singleValue("abc",				"abc");
+		toString_singleValue("-",				"\"-\"");
+		toString_singleValue(null,				"-");
+		toString_singleValue("#",				"\"#\"");
+		toString_singleValue("abc def",			"\"abc def\"");
+		toString_singleValue("\"",				"\"\"\"\"");
+		toString_singleValue("\n",				"\"\"/\"\"");
+		toString_singleValue("Line1\nLine2",	"\"Line1\"/\"Line2\"");
 	}
 	
-	private void test_toString_singleValue(String value, String expected) {
+	private void toString_singleValue(String value, String expected) {
 		Assert.equals(new WsvLine(new String[] {value}).toString(), expected);
 	}
 	
@@ -241,5 +241,47 @@ public class WsvLineTest {
 
 	private void toString_equals(String[] values, String[] whitespaces, String comment, String expected) {
 		Assert.equals(new WsvLine(values,whitespaces,comment).toString(), expected);
+	}
+	
+	@Test
+	public void hasValues() {
+		hasValues(null, false);
+		hasValues(stringArray(), false);
+		hasValues(stringArray("Value"), true);
+	}
+	
+	private void hasValues(String[] values, boolean expectedResult) {
+		Assert.equals(new WsvLine(values).hasValues(), expectedResult);
+	}
+	
+	@Test
+	public void setValues() {
+		WsvLine line = new WsvLine();
+		line.setValues("Value1", "Value2");
+		Assert.array_equals(line.Values, stringArray("Value1", "Value2"));
+	}
+	
+	@Test
+	public void getWhitespaces() {
+		WsvLine line = WsvLine.parse("a  b  c #dfd");
+		String[] clonedWhitespaces = line.getWhitespaces();
+		Assert.array_equals(clonedWhitespaces, stringArray(null,"  ","  "," "));
+		
+		String[] internalWhitespaces = WsvBasedFormat.getWhitespaces(line);
+		Assert.isNotEqual(clonedWhitespaces, internalWhitespaces);
+	}
+	
+	@Test
+	public void getComment() {
+		Assert.equals(WsvLine.parse("a  b  c #comment").getComment(), "comment");
+	}
+	
+	@Test
+	public void parseAsArray() {
+		Assert.array_equals(WsvLine.parseAsArray("a  b  c #comment"), stringArray("a", "b", "c"));
+	}
+	
+	public static String[] stringArray(String... values) {
+		return values;
 	}
 }

@@ -35,14 +35,14 @@ public class WsvCharTest {
 	};
 	
 	@Test
-	public void test_isWhitespace() {
+	public void isWhitespace() {
 		for (int wsChar : whitespaceChars) {
 			Assert.isTrue(WsvChar.isWhitespace(wsChar));
 		}
 	}
 	
 	@Test
-	public void test_isWhitespace_false() {
+	public void isWhitespace_NonWhitespaceGiven_ShouldBeFalse() {
 		List<Integer> wsList = Arrays.stream(whitespaceChars).boxed().collect(Collectors.toList());
 		for (int c = 0; c <= 0x10FFFF; c++) {
 			if (wsList.contains(c)) {
@@ -53,12 +53,17 @@ public class WsvCharTest {
 	}
 	
 	@Test
-	public void test_isWhitespace_false2() {
+	public void isWhitespace_LineFeedGiven_ShouldBeFalse() {
 		Assert.isFalse(WsvChar.isWhitespace('\n'));
 	}
 	
 	@Test
-	public void test_getWhitespaceCodePoints() {
+	public void getWhitespaceCodePoints() {
 		Assert.array_equals(WsvChar.getWhitespaceCodePoints(), whitespaceChars);
+	}
+	
+	@Test
+	public void staticClassCodeCoverageFix() {
+		WsvChar wsvChar = new WsvChar();
 	}
 }

@@ -4,27 +4,27 @@ import org.junit.Test;
 
 public class WsvParserTest {
 	@Test
-	public void test_parseDocument_exceptions() {
-		parseDocumentAsJaggedArray_throws_exception("a b c \"hello world",	"String not closed (1, 19)");
-		parseDocumentAsJaggedArray_throws_exception("a b c \"hello world\n",	"String not closed (1, 19)");
+	public void parseDocumentAsJaggedArray_InvalidTextGive_ShouldThrowExceptions() {
+		parseDocumentAsJaggedArray_InvalidTextGiven_ShouldThrowException("a b c \"hello world",	"String not closed (1, 19)");
+		parseDocumentAsJaggedArray_InvalidTextGiven_ShouldThrowException("a b c \"hello world\n",	"String not closed (1, 19)");
 		
-		parseDocumentAsJaggedArray_throws_exception("a b\"hello world\"",	"Invalid double quote in value (1, 4)");
+		parseDocumentAsJaggedArray_InvalidTextGiven_ShouldThrowException("a b\"hello world\"",	"Invalid double quote in value (1, 4)");
 		
-		parseDocumentAsJaggedArray_throws_exception("\"hello world\"a b c",	"Invalid character after string (1, 14)");
+		parseDocumentAsJaggedArray_InvalidTextGiven_ShouldThrowException("\"hello world\"a b c",	"Invalid character after string (1, 14)");
 		
-		parseDocumentAsJaggedArray_throws_exception("\"Line1\"/ \"Line2\"",	"Invalid string line break (1, 9)");
+		parseDocumentAsJaggedArray_InvalidTextGiven_ShouldThrowException("\"Line1\"/ \"Line2\"",	"Invalid string line break (1, 9)");
 		
-		parseDocumentAsJaggedArray_throws_exception("Line1\na b c \"hello world",	"String not closed (2, 19)");
-		parseDocumentAsJaggedArray_throws_exception("Line1\na b c \"hello world\n",	"String not closed (2, 19)");
+		parseDocumentAsJaggedArray_InvalidTextGiven_ShouldThrowException("Line1\na b c \"hello world",	"String not closed (2, 19)");
+		parseDocumentAsJaggedArray_InvalidTextGiven_ShouldThrowException("Line1\na b c \"hello world\n",	"String not closed (2, 19)");
 		
-		parseDocumentAsJaggedArray_throws_exception("Line1\na b\"hello world\"",		"Invalid double quote in value (2, 4)");
+		parseDocumentAsJaggedArray_InvalidTextGiven_ShouldThrowException("Line1\na b\"hello world\"",		"Invalid double quote in value (2, 4)");
 		
-		parseDocumentAsJaggedArray_throws_exception("Line1\n\"hello world\"a b c",	"Invalid character after string (2, 14)");
+		parseDocumentAsJaggedArray_InvalidTextGiven_ShouldThrowException("Line1\n\"hello world\"a b c",	"Invalid character after string (2, 14)");
 		
-		parseDocumentAsJaggedArray_throws_exception("Line1\n\"Line1\"/ \"Line2\"",	"Invalid string line break (2, 9)");
+		parseDocumentAsJaggedArray_InvalidTextGiven_ShouldThrowException("Line1\n\"Line1\"/ \"Line2\"",	"Invalid string line break (2, 9)");
 	}
 	
-	private void parseDocumentAsJaggedArray_throws_exception(String text, String expectedExceptionMessage) {
+	private void parseDocumentAsJaggedArray_InvalidTextGiven_ShouldThrowException(String text, String expectedExceptionMessage) {
 		try {
 			WsvParser.parseDocumentAsJaggedArray(text);
 		} catch (WsvParserException e) {
@@ -35,11 +35,11 @@ public class WsvParserTest {
 	}
 	
 	@Test
-	public void test_parseDocumentAsJaggedArray() {
-		String[] lineValues_empty	= Utils.stringArray();
-		String[] lineValues_a		= Utils.stringArray("a");
-		String[] lineValues_a_b		= Utils.stringArray("a", "b");
-		String[] lineValues_a_b_c	= Utils.stringArray("a", "b", "c");
+	public void parseDocumentAsJaggedArray() {
+		String[] lineValues_empty	= stringArray();
+		String[] lineValues_a		= stringArray("a");
+		String[] lineValues_a_b		= stringArray("a", "b");
+		String[] lineValues_a_b_c	= stringArray("a", "b", "c");
 		
 		parseDocumentAsJaggedArray_equals("",			lineValues_empty);
 		parseDocumentAsJaggedArray_equals("  ",			lineValues_empty);
@@ -90,5 +90,24 @@ public class WsvParserTest {
 	
 	private void parseDocumentAsJaggedArray_equals_serialized(String textAndExpected) {
 		Assert.equals(WsvSerializer.serializeDocument(WsvParser.parseDocumentAsJaggedArray(textAndExpected)),textAndExpected);
+	}
+	
+	@Test
+	public void parseLineAsArray_MultiLineGiven_ShouldThrowException() {
+		try {
+			WsvParser.parseLineAsArray("V11 V12\nV21");
+		} catch (WsvParserException e) {
+			Assert.equals(e.getMessage(), "Multiple WSV lines not allowed (1, 8)");
+			return;
+		}
+	}
+	
+	public static String[] stringArray(String... values) {
+		return values;
+	}
+	
+	@Test
+	public void staticClassCodeCoverageFix() {
+		WsvParser wsvParser = new WsvParser();
 	}
 }

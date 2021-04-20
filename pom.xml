@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.stenway</groupId>
 	<artifactId>wsv</artifactId>
-	<version>0.1.0-alpha1</version>
+	<version>0.8.0-beta1</version>
 	<name>WSV</name>
 	<description>Stenway reference implementation of WhitespaceSV (WSV = Whitespace Separated Values)</description>
-	<url>https://www.stenway.com</url>
+	<url>https://www.whitespacesv.com</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -26,4 +26,12 @@
 			<version>0.8.0</version>
 		</dependency>
 	</dependencies>
+        <developers>
+		<developer>
+			<name>Stenway</name>
+			<email>dev@stenway.com</email>
+			<organization>Stenway</organization>
+			<organizationUrl>https://www.stenway.com</organizationUrl>
+		</developer>
+	</developers>
 </project>
