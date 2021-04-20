@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.stenway</groupId>
 	<artifactId>wsv</artifactId>
-	<version>0.8.0-beta1</version>
+	<version>0.8.0</version>
 	<name>WSV</name>
 	<description>Stenway reference implementation of WhitespaceSV (WSV = Whitespace Separated Values)</description>
 	<url>https://www.whitespacesv.com</url>
@@ -26,7 +26,7 @@
 			<version>0.8.0</version>
 		</dependency>
 	</dependencies>
-        <developers>
+	<developers>
 		<developer>
 			<name>Stenway</name>
 			<email>dev@stenway.com</email>
@@ -34,4 +34,45 @@
 			<organizationUrl>https://www.stenway.com</organizationUrl>
 		</developer>
 	</developers>
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://raw.githubusercontent.com/Stenway/WSV-Java/main/LICENSE</url>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:git:https://github.com/Stenway/WSV-Java</connection>
+		<developerConnection>scm:git:https://github.com/Stenway/WSV-Java</developerConnection>
+		<url>https://github.com/Stenway/WSV-Java</url>
+	</scm>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
