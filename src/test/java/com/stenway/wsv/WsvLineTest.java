@@ -281,6 +281,12 @@ public class WsvLineTest {
 		Assert.array_equals(WsvLine.parseAsArray("a  b  c #comment"), stringArray("a", "b", "c"));
 	}
 	
+	@Test
+	public void getWhitespaces_Null() {
+		WsvLine line = new WsvLine();
+		Assert.array_equals(line.getWhitespaces(), null);
+	}
+	
 	public static String[] stringArray(String... values) {
 		return values;
 	}

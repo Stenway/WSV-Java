@@ -49,6 +49,9 @@ public class WsvLine {
 	}
 	
 	public String[] getWhitespaces() {
+		if (whitespaces == null) {
+			return null;
+		}
 		return whitespaces.clone();
 	}
 	

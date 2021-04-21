@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.stenway</groupId>
 	<artifactId>wsv</artifactId>
-	<version>0.8.0</version>
+	<version>0.8.1-alpha1</version>
 	<name>WSV</name>
 	<description>Stenway reference implementation of WhitespaceSV (WSV = Whitespace Separated Values)</description>
 	<url>https://www.whitespacesv.com</url>
