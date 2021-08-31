@@ -95,7 +95,7 @@ class WsvCharIterator extends ReliableTxtCharIterator {
 				break;
 			}
 			if (c == '\"') {
-				throw getException("Invalid double quote in value");
+				throw getException("Invalid double quote after value");
 			}
 			index++;
 		}
