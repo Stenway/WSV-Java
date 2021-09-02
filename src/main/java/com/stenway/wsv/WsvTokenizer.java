@@ -14,7 +14,7 @@ public class WsvTokenizer extends ReliableTxtCharIterator {
 	public static final int TokenTypeValue = 4;
 	public static final int TokenTypeStringStart = 5;
 	public static final int TokenTypeStringEnd = 6;
-	public static final int TokenTypeStringContent = 7;
+	public static final int TokenTypeStringText = 7;
 	public static final int TokenTypeStringEscapedDoubleQuote = 8;
 	public static final int TokenTypeStringLineBreak = 9;
 	public static final int TokenTypeEndOfText = 10;
@@ -75,7 +75,7 @@ public class WsvTokenizer extends ReliableTxtCharIterator {
 			int c = chars[index];
 			if (c == '"') {
 				if (partLength > 0) {
-					addToken(TokenTypeStringContent, partLength);
+					addToken(TokenTypeStringText, partLength);
 					partLength = 0;
 				}
 				index++;
@@ -86,7 +86,9 @@ public class WsvTokenizer extends ReliableTxtCharIterator {
 						addToken(TokenTypeStringEnd, 1);
 						return false;
 					}
-					addToken(TokenTypeStringLineBreak, 3);
+					addToken(TokenTypeStringStart, 1);
+					addToken(TokenTypeStringLineBreak, 1);
+					addToken(TokenTypeStringEnd, 1);
 				} else if (isWhitespace() || isChar('\n') || isChar('#') || isEndOfText() ) {
 					break;
 				} else {
