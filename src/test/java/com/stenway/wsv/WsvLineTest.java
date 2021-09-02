@@ -41,7 +41,7 @@ public class WsvLineTest {
 		parse_InvalidTextGiven_ShouldThrowExeption("a b c \"hello world",	"String not closed (1, 19)");
 		parse_InvalidTextGiven_ShouldThrowExeption("a b c \"hello world\n",	"String not closed (1, 19)");
 		
-		parse_InvalidTextGiven_ShouldThrowExeption("a b\"hello world\"",	"Invalid double quote in value (1, 4)");
+		parse_InvalidTextGiven_ShouldThrowExeption("a b\"hello world\"",	"Invalid double quote after value (1, 4)");
 		
 		parse_InvalidTextGiven_ShouldThrowExeption("\"hello world\"a b c",	"Invalid character after string (1, 14)");
 		

@@ -31,7 +31,7 @@ public class WsvDocumentTest {
 		parse_InvalidTextGiven_ShouldThrowException("a b c \"hello world",	"String not closed (1, 19)");
 		parse_InvalidTextGiven_ShouldThrowException("a b c \"hello world\n",	"String not closed (1, 19)");
 		
-		parse_InvalidTextGiven_ShouldThrowException("a b\"hello world\"",	"Invalid double quote in value (1, 4)");
+		parse_InvalidTextGiven_ShouldThrowException("a b\"hello world\"",	"Invalid double quote after value (1, 4)");
 		
 		parse_InvalidTextGiven_ShouldThrowException("\"hello world\"a b c",	"Invalid character after string (1, 14)");
 		
@@ -40,7 +40,7 @@ public class WsvDocumentTest {
 		parse_InvalidTextGiven_ShouldThrowException("Line1\na b c \"hello world",	"String not closed (2, 19)");
 		parse_InvalidTextGiven_ShouldThrowException("Line1\na b c \"hello world\n",	"String not closed (2, 19)");
 		
-		parse_InvalidTextGiven_ShouldThrowException("Line1\na b\"hello world\"",		"Invalid double quote in value (2, 4)");
+		parse_InvalidTextGiven_ShouldThrowException("Line1\na b\"hello world\"",		"Invalid double quote after value (2, 4)");
 		
 		parse_InvalidTextGiven_ShouldThrowException("Line1\n\"hello world\"a b c",	"Invalid character after string (2, 14)");
 		
